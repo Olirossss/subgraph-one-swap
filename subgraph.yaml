@@ -1,0 +1,36 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: OneSwapToken
+    network: mainnet
+    source:
+      address: "0x0B342C51d1592C41068d5D4b4DA4A68C0a04d5A4"
+      abi: OneSwapToken
+      startBlock: 10808509
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddedBlackLists
+        - Approval
+        - OwnerChanged
+        - RemovedBlackLists
+        - Transfer
+      abis:
+        - name: OneSwapToken
+          file: ./abis/OneSwapToken.json
+      eventHandlers:
+        - event: AddedBlackLists(address[])
+          handler: handleAddedBlackLists
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnerChanged(address)
+          handler: handleOwnerChanged
+        - event: RemovedBlackLists(address[])
+          handler: handleRemovedBlackLists
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
